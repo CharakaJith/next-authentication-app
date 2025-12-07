@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const connection = require('./database/connection');
 const { CORS } = require('./common/messages');
 require('dotenv').config({
   path: process.env.ENV_PATH || '.env',

@@ -1,0 +1,27 @@
+module.exports = Object.freeze({
+  APP_ENV: {
+    DEV: 'development',
+    QA: 'qa',
+    STAGE: 'staging',
+    PROD: 'production',
+  },
+
+  STATUS_CODE: {
+    OK: 200,
+    CREATED: 201,
+    NO_CONTENT: 204,
+
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    CONFLICT: 409,
+    GONE: 410,
+    UNPROCESSABLE: 422,
+
+    SERVER_ERROR: 500,
+    BAD_GATEWAY: 502,
+    SURVICE_UNAVAILABLE: 503,
+    TIME_OUT: 504,
+  },
+});

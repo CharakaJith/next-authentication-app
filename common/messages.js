@@ -3,4 +3,12 @@ module.exports = Object.freeze({
   CORS: {
     INVALID: 'Not allowed by CORS!',
   },
+
+  // database initialization
+  DATABASE: {
+    CONNECTION: {
+      SUCCESS: 'Connection has been established successfully.',
+      FAILED: (error) => `Unable to connect to the database: ${error}`,
+    },
+  },
 });
