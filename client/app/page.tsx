@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import NavBar from '@/components/navbar';
 
 export default function Home() {
@@ -15,6 +16,9 @@ export default function Home() {
           Supports user authentication with JWT tokens and provides CRUD operations for users.
         </p>
       </main>
+
+      {/* footer */}
+      <Footer />
     </div>
   );
 }
