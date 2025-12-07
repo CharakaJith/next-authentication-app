@@ -5,6 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "cross-env ENV_PATH=.env.dev nodemon app.js",
+    "migrate:dev": "cross-env ENV_PATH=.env.dev npx sequelize-cli db:migrate",
+    "migrate:dev:down": "cross-env ENV_PATH=.env.dev npx sequelize-cli db:migrate:undo",
+    "migrate:dev:down:all": "cross-env ENV_PATH=.env.dev npx sequelize-cli db:migrate:undo:all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +31,7 @@
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "sequelize-cli": "^6.6.3"
   }
 }
