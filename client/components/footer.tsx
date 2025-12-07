@@ -2,7 +2,7 @@
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-gray-100 text-gray-700 py-4 text-center mt-auto rounded-t-full">
+    <footer className="w-full bg-gray-900 text-gray-100 py-4 text-center mt-auto rounded-t-full">
       &copy; {new Date().getFullYear()} Jith. All rights reserved.
     </footer>
   );
