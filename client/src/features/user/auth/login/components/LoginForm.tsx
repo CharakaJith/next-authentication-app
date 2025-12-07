@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import ErrorBox from '@/components/errorBox';
@@ -5,6 +7,8 @@ import useLogin from '../hooks/useLogin';
 
 const LoginForm: React.FC = () => {
   const { email, password, error, isError, setEmail, setPassword, handleSubmit } = useLogin();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex w-full items-center justify-center px-5 cursor-default">
@@ -16,7 +20,16 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           {/* inputs */}
           <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+          <div className="relative">
+            <Input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            <button
+              type="button"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOffIcon size={25} /> : <EyeIcon size={25} />}
+            </button>
+          </div>
 
           {/* error box */}
           {isError && <ErrorBox messages={error} />}

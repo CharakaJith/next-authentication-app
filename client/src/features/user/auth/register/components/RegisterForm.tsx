@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import ErrorBox from '@/components/errorBox';
@@ -25,6 +27,9 @@ const RegisterForm: React.FC = () => {
     handleSubmit,
   } = useRegister();
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   return (
     <div className="flex w-full items-center justify-center px-5 cursor-default">
       {/* form card */}
@@ -49,8 +54,31 @@ const RegisterForm: React.FC = () => {
           <Input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" />
           <Input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" />
           <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-          <Input type="password" value={confrimPassword} onChange={(e) => setConfrimPassword(e.target.value)} placeholder="Confirm Password" />
+          <div className="relative">
+            <Input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            <button
+              type="button"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOffIcon size={25} /> : <EyeIcon size={25} />}
+            </button>
+          </div>
+          <div className="relative">
+            <Input
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confrimPassword}
+              onChange={(e) => setConfrimPassword(e.target.value)}
+              placeholder="Confirm Password"
+            />
+            <button
+              type="button"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <EyeOffIcon size={25} /> : <EyeIcon size={25} />}
+            </button>
+          </div>
 
           {/* errors */}
           {(registerIsError || titlesIsError) && <ErrorBox messages={[...(registerError ?? []), ...(titlesError ?? [])]} />}
