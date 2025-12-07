@@ -1,16 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from './ui/button';
 
 const NavBar: React.FC = () => {
   return (
     <nav className="flex items-center justify-between bg-white text-gray-900 px-4 py-3 md:px-8 lg:px-10">
       {/* logo */}
-      <Link href="/">
-        <Image src="/images/logo-full.png" alt="Logo" className="object-contain" width={160} height={40} />
-      </Link>
+      <Image src="/images/logo-full.png" alt="Logo" className="object-contain" width={160} height={40} />
 
       {/* buttons */}
       <div className="flex gap-2 text-sm sm:text-base md:text-lg">
