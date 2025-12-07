@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const connection = require('./database/connection');
+const errorHandler = require('./middleware/errorHandler');
 const { CORS } = require('./common/messages');
 require('dotenv').config({
   path: process.env.ENV_PATH || '.env',
@@ -36,6 +37,9 @@ app.use(
 // setup routing paths
 app.use('/api/v1', routesV1);
 app.use('/api/v2', routesV2);
+
+// global custom error handler
+app.use(errorHandler);
 
 // start the server
 app.listen(PORT, () => {

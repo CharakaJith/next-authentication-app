@@ -31,4 +31,13 @@ module.exports = Object.freeze({
       FORBIDDEN: 'Access denied!',
     },
   },
+
+  // repository layer messages
+  REPO: {
+    FAILED: {
+      GET: {
+        BY_EMAIL: (entity, error) => `Failed to retrieve ${entity} by email: ${error}`,
+      },
+    },
+  },
 });

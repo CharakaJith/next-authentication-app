@@ -1,5 +1,6 @@
 'use strict';
 
+const userTitle = require('../enum/user/title.enum');
 const userStatus = require('../enum/user/status.enum');
 
 module.exports = {
@@ -15,6 +16,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+      },
+      title: {
+        type: Sequelize.ENUM(...userTitle.values),
+        allowNull: false,
+        defaultValue: userTitle.MX,
       },
       firstName: {
         type: Sequelize.STRING,
@@ -70,5 +76,6 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
     await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_Users_status";');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_Users_title";');
   },
 };

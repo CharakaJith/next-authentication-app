@@ -1,6 +1,7 @@
 'use strict';
 
 const { Model } = require('sequelize');
+const userTitle = require('../enum/user/title.enum');
 const userStatus = require('../enum/user/status.enum');
 
 module.exports = (sequelize, DataTypes) => {
@@ -22,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+      },
+      title: {
+        type: DataTypes.ENUM(...userTitle.values),
+        allowNull: false,
       },
       firstName: {
         type: DataTypes.STRING,
