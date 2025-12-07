@@ -35,9 +35,13 @@ module.exports = Object.freeze({
   // repository layer messages
   REPO: {
     FAILED: {
+      CREATE: (entity, error) => `Failed to create new ${entity}: ${error}`,
       GET: {
+        ALL: (entity, error) => `Failed to retrieve all ${entity}: ${error}`,
         BY_EMAIL: (entity, error) => `Failed to retrieve ${entity} by email: ${error}`,
+        BY_ID: (entity, error) => `Failed to retrieve ${entity} by ID: ${error}`,
       },
+      UPDATE: (entity, error) => `Failed to update ${entity}: ${error}`,
     },
   },
 });

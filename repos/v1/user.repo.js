@@ -32,6 +32,14 @@ const userRepo = {
       throw new CustomError(REPO.FAILED.GET.BY_EMAIL(ENTITY, error.message), STATUS_CODE.SERVER_ERROR);
     }
   },
+
+  update: async (user) => {
+    try {
+      return await user.save();
+    } catch (error) {
+      throw new CustomError(REPO.FAILED.UPDATE(ENTITY, error.message), STATUS_CODE.SERVER_ERROR);
+    }
+  },
 };
 
 module.exports = userRepo;

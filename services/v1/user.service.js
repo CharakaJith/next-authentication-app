@@ -4,6 +4,7 @@ const { v4: uuidv4, validate: isUUID } = require('uuid');
 const CustomError = require('../../util/customError');
 const displayIdGenerator = require('../../util/displayIdGenerator');
 const userRepo = require('../../repos/v1/user.repo');
+const jwtService = require('../jwt.service');
 
 const userStatus = require('../../enum/user/status.enum');
 const { PAYLOAD } = require('../../common/responses');
@@ -51,6 +52,60 @@ const userService = {
       data: {
         user: userRes,
       },
+    };
+  },
+
+  userLogin: async (data) => {
+    const { email, password } = data;
+
+    // fetch user details
+    const user = await userRepo.getByEmail(email);
+    if (!user) {
+      throw new CustomError(PAYLOAD.USER.INVALID_CRED, STATUS_CODE.UNAUTHORIZED);
+    }
+
+    // validate password and remove it
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      throw new CustomError(PAYLOAD.USER.INVALID_CRED, STATUS_CODE.UNAUTHORIZED);
+    }
+    delete user.dataValues.password;
+
+    // check if user is active
+    if (user.status !== userStatus.ACTIVE) {
+      throw new CustomError(PAYLOAD.USER.INACTIVE, STATUS_CODE.FORBIDDEN);
+    }
+
+    // generate access token and refresh token
+    const tokenUser = {
+      id: user.id,
+      title: user.title,
+      lastName: user.lastName,
+      email: user.email,
+    };
+    const accessToken = await jwtService.generateAccessToken(tokenUser);
+    const refreshToken = await jwtService.generateRefreshToken(tokenUser);
+
+    // update last login time and status
+    user.lastLogin = new Date();
+    await userRepo.update(user);
+
+    // user response
+    const userRes = {
+      displayId: user.displayId,
+      title: user.title,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        user: userRes,
+      },
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     };
   },
 };

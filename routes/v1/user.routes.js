@@ -5,10 +5,12 @@ const userController = require('../../controllers/v1/user.controller');
 
 const validator = require('../../middleware/requestValidator');
 const userRegisterSchema = require('../../schemas/v1/user/userRegister.schema');
+const userLoginSchema = require('../../schemas/v1/user/userLogin.schema');
 
 const userRouter = express.Router();
 
 userRouter.post('/', validator(userRegisterSchema), userController.register);
+userRouter.post('/login', validator(userLoginSchema), userController.login);
 
 // secure below endpoints
 userRouter.use(authenticate);

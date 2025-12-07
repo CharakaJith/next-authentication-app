@@ -4,6 +4,10 @@ module.exports = Object.freeze({
     USER: {
       // POST: /
       EXISTS: 'User with this email already exists.',
+
+      // POST: /login
+      INVALID_CRED: 'Invalid login credentials!',
+      INACTIVE: 'Account is inactive or suspended. Please contact support for more information.',
     },
 
     // /api/v1/auth
