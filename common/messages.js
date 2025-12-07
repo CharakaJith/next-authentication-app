@@ -11,4 +11,9 @@ module.exports = Object.freeze({
       FAILED: (error) => `Unable to connect to the database: ${error}`,
     },
   },
+
+  // validation
+  VALIDATION: {
+    FAILED: 'Request validation failed.',
+  },
 });
