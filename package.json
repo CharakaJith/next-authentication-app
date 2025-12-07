@@ -1,0 +1,27 @@
+{
+  "name": "next-authentication-app",
+  "version": "1.0.0",
+  "description": "A Next.js authentication app with secure user signup, login, protected routes, and session handling. Demonstrates full-stack auth flow using modern Next.js features.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharakaJith/next-authentication-app.git"
+  },
+  "author": "jith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CharakaJith/next-authentication-app/issues"
+  },
+  "homepage": "https://github.com/CharakaJith/next-authentication-app#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
