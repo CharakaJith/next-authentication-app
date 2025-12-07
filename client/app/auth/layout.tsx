@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       {/* navbar */}
       <NavBar />
 
-      {/* Center the page content */}
+      {/* center page content */}
       <main className="flex-1 flex items-center justify-center px-4 py-16">{children}</main>
 
       {/* footer */}

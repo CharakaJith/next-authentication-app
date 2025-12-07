@@ -1,4 +1,4 @@
-export interface LoginSuccessResponse {
+export interface RegisterSuccessResponse {
   success: true;
   response: {
     status: number;
@@ -6,14 +6,13 @@ export interface LoginSuccessResponse {
       user: {
         displayId: string;
         title: string;
-        firstName: string;
         lastName: string;
       };
     };
   };
 }
 
-export interface LoginErrorResponse {
+export interface RegisterErrorResponse {
   success: false;
   response: {
     status: number;
@@ -27,4 +26,4 @@ export interface LoginErrorResponse {
   };
 }
 
-export type LoginResponse = LoginSuccessResponse | LoginErrorResponse;
+export type RegisterResponse = RegisterSuccessResponse | RegisterErrorResponse;

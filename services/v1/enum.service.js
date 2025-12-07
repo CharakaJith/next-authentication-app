@@ -10,7 +10,7 @@ const enumService = {
 
     return {
       success: true,
-      status: STATUS_CODE.CREATED,
+      status: STATUS_CODE.OK,
       data: {
         titles: titlesArray,
       },

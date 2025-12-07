@@ -16,14 +16,14 @@ const NavBar: React.FC = () => {
       <div className="flex gap-2 text-sm sm:text-base md:text-lg">
         {/* login button */}
         <Link href="/auth/login">
-          <Button className="w-[70px] h-8 sm:w-20 sm:h-9 md:w-[84px] md:h-10 bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer">
+          <Button className="w-[70px] h-8 sm:w-20 sm:h-9 md:w-[84px] md:h-10 bg-gray-100 text-gray-700 hover:bg-gray-200 cursor-pointer">
             Login
           </Button>
         </Link>
 
         {/* register button */}
         <Link href="/auth/register">
-          <Button className="w-[70px] h-8 sm:w-20 sm:h-9 md:w-[84px] md:h-10 bg-green-600 text-white hover:bg-green-700 cursor-pointer">
+          <Button className="w-[70px] h-8 sm:w-20 sm:h-9 md:w-[84px] md:h-10 bg-gray-600 text-white hover:bg-gray-700 cursor-pointer">
             Register
           </Button>
         </Link>
