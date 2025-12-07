@@ -3,10 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { AuthInfo } from './types/authInfo';
 import type { AuthState } from './types/authState';
 
+const isBrowser = typeof window !== 'undefined';
+
 const initialState: AuthState = {
-  accessToken: sessionStorage.getItem('userAccessToken'),
-  isAuthenticated: !!sessionStorage.getItem('userAccessToken'),
-  info: sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')!) : null,
+  accessToken: isBrowser ? sessionStorage.getItem('userAccessToken') : null,
+  isAuthenticated: isBrowser ? !!sessionStorage.getItem('userAccessToken') : false,
+  info: isBrowser && sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')!) : null,
 };
 
 const userAuthSlice = createSlice({
@@ -18,16 +20,21 @@ const userAuthSlice = createSlice({
       state.isAuthenticated = true;
       state.info = action.payload.info;
 
-      sessionStorage.setItem('userAccessToken', action.payload.token);
-      sessionStorage.setItem('userInfo', JSON.stringify(action.payload.info));
+      if (isBrowser) {
+        sessionStorage.setItem('userAccessToken', action.payload.token);
+        sessionStorage.setItem('userInfo', JSON.stringify(action.payload.info));
+      }
     },
 
     clearUserAuth: (state) => {
       state.accessToken = null;
       state.isAuthenticated = false;
       state.info = null;
-      sessionStorage.removeItem('userAccessToken');
-      sessionStorage.removeItem('userInfo');
+
+      if (isBrowser) {
+        sessionStorage.removeItem('userAccessToken');
+        sessionStorage.removeItem('userInfo');
+      }
     },
   },
 });
