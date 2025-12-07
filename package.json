@@ -4,7 +4,7 @@
   "description": "A Next.js authentication app with secure user signup, login, protected routes, and session handling. Demonstrates full-stack auth flow using modern Next.js features.",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "cross-env ENV_PATH=.env.dev nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,9 +19,11 @@
   "homepage": "https://github.com/CharakaJith/next-authentication-app#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "nodemon": "^3.1.11"
   }
 }
