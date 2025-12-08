@@ -2,6 +2,9 @@ module.exports = Object.freeze({
   PAYLOAD: {
     // /api/v1/user
     USER: {
+      // GET: /
+      NOT_FOUND: 'User not found!',
+
       // POST: /
       EXISTS: 'User with this email already exists.',
 

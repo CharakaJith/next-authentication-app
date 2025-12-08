@@ -11,6 +11,36 @@ const { PAYLOAD } = require('../../common/responses');
 const { STATUS_CODE } = require('../../constants/app.constants');
 
 const userService = {
+  getUserDetails: async (data) => {
+    const { id } = data;
+
+    // fetch user details
+    const user = await userRepo.getById(id);
+    if (!user) {
+      throw new CustomError(PAYLOAD.USER.NOT_FOUND, STATUS_CODE.BAD_REQUEST);
+    }
+
+    // user response
+    const userRes = {
+      displayId: user.displayId,
+      title: user.title,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      status: user.status,
+      lastLogin: user.lastLogin,
+      createdAt: user.createdAt,
+    };
+
+    return {
+      success: true,
+      status: STATUS_CODE.CREATED,
+      data: {
+        user: userRes,
+      },
+    };
+  },
+
   newUserRegister: async (data) => {
     const { title, firstName, lastName, email, password } = data;
 

@@ -2,6 +2,25 @@ const userService = require('../../services/v1/user.service');
 const { APP_ENV } = require('../../constants/app.constants');
 
 const userController = {
+  get: async (req, res, next) => {
+    try {
+      const getData = req.user;
+
+      const response = await userService.getUserDetails(getData);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   register: async (req, res, next) => {
     try {
       const registerData = ({ title, firstName, lastName, email, password } = req.body);
