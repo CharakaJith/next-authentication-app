@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import UserRegister from '../services/registerApi';
-import { VALIDATE, ERROR, DISPLAY } from '@/src/common/messages';
+import { VALIDATE, ERROR } from '@/src/common/messages';
 import { RegisterErrorResponse } from '../types/registerResponse';
 import { RegisterRequest } from '../types/registerRequest';
 import Toast from '@/components/toast';

@@ -1,6 +1,6 @@
-const authRepo = require('../repos/v1/auth.repo');
-const { STATUS_CODE } = require('../constants/app.constants');
-const { PAYLOAD } = require('../common/responses');
+const authRepo = require('../../repos/v1/auth.repo');
+const { STATUS_CODE } = require('../../constants/app.constants');
+const { PAYLOAD } = require('../../common/responses');
 
 const authService = {
   handleLogout: async (data) => {
@@ -15,7 +15,7 @@ const authService = {
 
     return {
       success: true,
-      status: STATUS_CODE.CREATED,
+      status: STATUS_CODE.OK,
       data: {
         message: PAYLOAD.AUTH.LOGGEDOUT,
       },

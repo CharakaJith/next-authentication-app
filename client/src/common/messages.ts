@@ -18,10 +18,6 @@ export const DISPLAY = {
       LOGIN: 'Please login to access this page!',
       FORBIDDON: 'Permission denied!',
     },
-    CREATED: 'User created successfully',
-    DELETED: 'User deleted successfully',
-    DETAILS_UPDATED: 'Details updated successfully',
-    PASSWORD_UPDATED: 'Password updated successfully',
     LOGGED_OUT: 'Logged out successfully',
   },
 } as const;

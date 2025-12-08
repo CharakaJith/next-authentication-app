@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const logger = require('../log/logger');
-const authService = require('../../services/auth.service');
+const authService = require('../../services/v1/auth.service');
 const { STATUS_CODE } = require('../../constants/app.constants');
 const { JWT } = require('../../common/messages');
 const { LOG_TYPE } = require('../../constants/logger.constants');
