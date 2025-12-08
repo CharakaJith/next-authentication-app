@@ -2,6 +2,7 @@
 
 import Footer from '@/components/footer';
 import NavBar from '@/components/navbar';
+import ProfileDisplay from '@/src/features/user/profile/components/ProfileDisplay';
 import { checkAuth } from '@/src/util/checkAuth';
 import type { FC } from 'react';
 
@@ -13,7 +14,7 @@ const DashboardPage: FC = () => {
 
       {/* main */}
       <main className="flex-1 flex items-center justify-center px-4 py-16">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <ProfileDisplay />
       </main>
 
       {/* footer */}
