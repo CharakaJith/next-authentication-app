@@ -1,4 +1,3 @@
-const { Op } = require('sequelize');
 const models = require('../../models');
 
 const CustomError = require('../../util/customError');
@@ -35,9 +34,6 @@ const userRepo = {
       return await User.findOne({
         where: {
           email: email,
-          status: {
-            [Op.ne]: userStatus.DELETED,
-          },
         },
       });
     } catch (error) {

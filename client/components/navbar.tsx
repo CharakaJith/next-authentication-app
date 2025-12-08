@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
         {isAuthenticated && info ? (
           // user info
           <>
-            <div className="w-16 h-16 rounded-full bg-green-600 border-2 border-green-900 text-white flex items-center justify-center text-3xl cursor-default">
+            <div className="w-16 h-16 rounded-full bg-green-600 border-2 border-green-900 text-white font-bold flex items-center justify-center text-3xl cursor-default">
               {`${info.firstName.charAt(0)}${info.lastName.charAt(0)}`}
             </div>
           </>

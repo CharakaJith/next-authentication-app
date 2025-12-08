@@ -11,6 +11,9 @@ module.exports = Object.freeze({
       // POST: /login
       INVALID_CRED: 'Invalid login credentials!',
       INACTIVE: 'Account is inactive or suspended. Please contact support for more information.',
+
+      // DELETE: /
+      DELETED: 'User deleted successfully!',
     },
 
     // /api/v1/auth

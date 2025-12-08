@@ -4,6 +4,7 @@ const { v4: uuidv4, validate: isUUID } = require('uuid');
 const CustomError = require('../../util/customError');
 const displayIdGenerator = require('../../util/displayIdGenerator');
 const userRepo = require('../../repos/v1/user.repo');
+const authRepo = require('../../repos/v1/auth.repo');
 const jwtService = require('../jwt.service');
 
 const userStatus = require('../../enum/user/status.enum');
@@ -136,6 +137,35 @@ const userService = {
       },
       accessToken: accessToken,
       refreshToken: refreshToken,
+    };
+  },
+
+  deactivateUser: async (data) => {
+    const { token, id } = data;
+
+    // fetch user details
+    const user = await userRepo.getById(id);
+    if (!user) {
+      throw new CustomError(PAYLOAD.USER.NOT_FOUND, STATUS_CODE.BAD_REQUEST);
+    }
+
+    // change user status
+    user.status = userStatus.DELETED;
+    await userRepo.update(user);
+
+    // blacklist token
+    const tokenDetails = {
+      token: token,
+      userId: user.id,
+    };
+    await authRepo.create(tokenDetails);
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        message: PAYLOAD.USER.DELETED,
+      },
     };
   },
 };

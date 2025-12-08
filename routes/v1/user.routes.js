@@ -16,5 +16,6 @@ userRouter.post('/login', validator(userLoginSchema), userController.login);
 userRouter.use(authenticate);
 
 userRouter.get('/', userController.get);
+userRouter.delete('/', userController.delete);
 
 module.exports = userRouter;

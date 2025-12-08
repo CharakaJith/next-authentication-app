@@ -72,6 +72,26 @@ const userController = {
       next(error);
     }
   },
+
+  delete: async (req, res, next) => {
+    try {
+      const deleteData = req.user;
+      deleteData.token = req.headers.authorization;
+
+      const response = await userService.deactivateUser(deleteData);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = userController;
