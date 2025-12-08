@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import ErrorBox from '@/components/errorBox';
 import useLogin from '../hooks/useLogin';
+import LoginFormProps from '../props/loginFormProp';
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC<LoginFormProps> = ({ defaultEmail = '' }) => {
   const { email, password, error, isError, setEmail, setPassword, handleSubmit } = useLogin();
 
   const [showPassword, setShowPassword] = useState(false);
+
+  // prefill email if available
+  useEffect(() => {
+    if (defaultEmail) setEmail(defaultEmail);
+  }, [defaultEmail, setEmail]);
 
   return (
     <div className="flex w-full items-center justify-center px-5 cursor-default">

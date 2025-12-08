@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import type { RootState } from '@/lib/store';
 import { useEffect } from 'react';
+import Toast from '@/components/toast';
+import { DISPLAY } from '../common/messages';
+import { AlertTriangle } from 'lucide-react';
 
 export const checkAuth = (WrappedComponent: React.FC) => {
   const ComponentWithAuth: React.FC = () => {
@@ -12,6 +15,9 @@ export const checkAuth = (WrappedComponent: React.FC) => {
 
     useEffect(() => {
       if (!isAuthenticated) {
+        Toast.error(DISPLAY.USER.AUTH.LOGIN, {
+          icon: <AlertTriangle size={25} className="text-yellow-400" />,
+        });
         router.replace('/auth/login');
       }
     }, [isAuthenticated, router]);

@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import UserRegister from '../services/registerApi';
-import { VALIDATE, ERROR } from '@/src/common/messages';
+import { VALIDATE, ERROR, DISPLAY } from '@/src/common/messages';
 import { RegisterErrorResponse } from '../types/registerResponse';
 import { RegisterRequest } from '../types/registerRequest';
+import Toast from '@/components/toast';
+import { InfoIcon } from 'lucide-react';
 
 const useRegister = () => {
   const [title, setTitle] = useState<string>('');
@@ -49,9 +51,10 @@ const useRegister = () => {
 
       // on success
       if (res.data.success) {
-        const userData = res.data.response.data.user;
-
-        router.push('/auth/register');
+        Toast.success(`Please login to continue`, {
+          icon: <InfoIcon size={25} className="text-green-400" />,
+        });
+        router.push(`/auth/login?email=${encodeURIComponent(email)}`);
 
         return;
       }

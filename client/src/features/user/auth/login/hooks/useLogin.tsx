@@ -3,11 +3,13 @@ import type { AxiosError } from 'axios';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { InfoIcon } from 'lucide-react';
 
 import UserLogin from '../services/loginApi';
 import { VALIDATE, ERROR } from '@/src/common/messages';
 import { LoginErrorResponse } from '../types/loginResponse';
 import { setUserAuth } from '@/src/features/auth/userAuthSlice';
+import Toast from '@/components/toast';
 
 const useLogin = () => {
   const [email, setEmail] = useState<string>('');
@@ -42,6 +44,9 @@ const useLogin = () => {
           dispatch(setUserAuth({ token: accessToken, info: userData }));
         }
 
+        Toast.success(`Welcome back, ${userData.title}. ${userData.lastName}`, {
+          icon: <InfoIcon size={25} className="text-green-400" />,
+        });
         router.push('/dashboard');
 
         return;
