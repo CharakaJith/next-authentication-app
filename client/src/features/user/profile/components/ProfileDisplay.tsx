@@ -3,11 +3,29 @@ import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
 import useGet from '../hooks/useGet';
 import { Button } from '@/components/ui/button';
+import { DISPLAY } from '@/src/common/messages';
+import { InfoIcon } from 'lucide-react';
+import Toast from '@/components/toast';
+import { useDispatch } from 'react-redux';
+import { clearUserAuth } from '@/src/features/auth/userAuthSlice';
+import useLogout from '../../auth/logout/hooks/useLogout';
 
 const ProfileDisplay: React.FC = () => {
   const { user, error, isError } = useGet();
 
   const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile');
+
+  const dispatch = useDispatch();
+
+  // handle logout
+  const { handleUserLogout } = useLogout({
+    onSuccess: () => {
+      dispatch(clearUserAuth());
+      Toast.success(DISPLAY.USER.LOGGED_OUT, {
+        icon: <InfoIcon size={25} className="text-green-400" />,
+      });
+    },
+  });
 
   // handle error
   if (isError) return <div className="p-4 bg-red-100 text-red-700 rounded">Error: {error || 'Failed to load user'}</div>;
@@ -63,12 +81,7 @@ const ProfileDisplay: React.FC = () => {
       {/* logout */}
       {activeTab === 'profile' ? (
         <div className="mt-6 flex justify-end">
-          <Button
-            className="px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md cursor-pointer"
-            onClick={() => {
-              console.log('Logout clicked');
-            }}
-          >
+          <Button className="px-4 py-2 bg-red-500 text-white hover:bg-red-700 rounded-md cursor-pointer" onClick={handleUserLogout}>
             Logout
           </Button>
         </div>
