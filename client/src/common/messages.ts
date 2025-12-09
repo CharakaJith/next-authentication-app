@@ -5,7 +5,7 @@ export const VALIDATE: { [key: string]: string } = {
 };
 
 export const ERROR = {
-  AUTH_FAILED: 'Authentication failed',
+  AUTH_FAILED: 'Authentication failed!',
   NO_TOKEN: 'No access token found',
   UNEXPECTED: 'An unexpected error occurred!',
 
@@ -20,6 +20,8 @@ export const DISPLAY = {
       FORBIDDON: 'Permission denied!',
     },
     LOGGED_OUT: 'Logged out successfully',
+    PWD_UPDATED: 'Password updated successfully',
+    LOGIN_AGAIN: 'Please login again',
     DELETED: 'Account deleted successfully',
   },
 } as const;

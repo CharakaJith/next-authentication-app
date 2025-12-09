@@ -5,10 +5,37 @@ import DeleteModal from '../../delete/components/DeleteModal';
 import useUpdatePassword from '../../update/password/hooks/useUpdatePassword';
 import { Input } from '@/components/ui/input';
 import ErrorBox from '@/components/errorBox';
+import Toast from '@/components/toast';
+import { AlertTriangle, InfoIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { DISPLAY } from '@/src/common/messages';
+import { clearUserAuth } from '@/src/features/auth/userAuthSlice';
+import { useDispatch } from 'react-redux';
 
 const SettingTab: React.FC<SettingTabProps> = ({ user, onDelete }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  // handle password update
+  const handlePasswordUpdate = () => {
+    // go to dashboard
+    Toast.success(DISPLAY.USER.PWD_UPDATED, {
+      icon: <InfoIcon size={25} className="text-green-400" />,
+    });
+    Toast.warning(DISPLAY.USER.LOGIN_AGAIN, {
+      icon: <AlertTriangle size={25} className="text-yellow-400" />,
+    });
+    router.push('/');
+
+    // clear store
+    setTimeout(() => {
+      dispatch(clearUserAuth());
+    }, 50);
+  };
+
   const { currentPassword, newPassword, confirmPassword, error, isError, setCurrentPassword, setNewPassword, setConfirmPassword, handleSubmit } =
-    useUpdatePassword({});
+    useUpdatePassword({ onSuccess: handlePasswordUpdate });
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
