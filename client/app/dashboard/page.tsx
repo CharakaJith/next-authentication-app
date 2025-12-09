@@ -2,11 +2,17 @@
 
 import Footer from '@/components/footer';
 import NavBar from '@/components/navbar';
+import { RootState } from '@/lib/store';
 import ProfileDisplay from '@/src/features/user/profile/components/ProfileDisplay';
 import { checkAuth } from '@/src/util/checkAuth';
 import type { FC } from 'react';
+import { useSelector } from 'react-redux';
 
 const DashboardPage: FC = () => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.userAuth);
+
+  if (!isAuthenticated) return null;
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* navbar */}

@@ -10,19 +10,20 @@ import { AlertTriangle } from 'lucide-react';
 
 export const checkAuth = (WrappedComponent: React.FC) => {
   const ComponentWithAuth: React.FC = () => {
-    const { isAuthenticated } = useSelector((state: RootState) => state.userAuth);
+    const { isAuthenticated, isLoggingOut } = useSelector((state: RootState) => state.userAuth);
     const router = useRouter();
 
     useEffect(() => {
-      if (!isAuthenticated) {
+      if (!isAuthenticated && !isLoggingOut) {
         Toast.error(DISPLAY.USER.AUTH.LOGIN, {
           icon: <AlertTriangle size={25} className="text-yellow-400" />,
         });
         router.replace('/auth/login');
       }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, isLoggingOut, router]);
 
-    if (!isAuthenticated) return null;
+    // prevent flicker
+    if (!isAuthenticated && !isLoggingOut) return null;
 
     return <WrappedComponent />;
   };

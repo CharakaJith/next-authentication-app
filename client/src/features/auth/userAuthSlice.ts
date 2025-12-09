@@ -9,6 +9,8 @@ const initialState: AuthState = {
   accessToken: isBrowser ? sessionStorage.getItem('userAccessToken') : null,
   isAuthenticated: isBrowser ? !!sessionStorage.getItem('userAccessToken') : false,
   info: isBrowser && sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')!) : null,
+
+  isLoggingOut: false,
 };
 
 const userAuthSlice = createSlice({
@@ -19,6 +21,7 @@ const userAuthSlice = createSlice({
       state.accessToken = action.payload.token;
       state.isAuthenticated = true;
       state.info = action.payload.info;
+      state.isLoggingOut = false;
 
       if (isBrowser) {
         sessionStorage.setItem('userAccessToken', action.payload.token);
@@ -26,10 +29,15 @@ const userAuthSlice = createSlice({
       }
     },
 
+    startLogout: (state) => {
+      state.isLoggingOut = true;
+    },
+
     clearUserAuth: (state) => {
       state.accessToken = null;
       state.isAuthenticated = false;
       state.info = null;
+      state.isLoggingOut = false;
 
       if (isBrowser) {
         sessionStorage.removeItem('userAccessToken');
@@ -39,5 +47,5 @@ const userAuthSlice = createSlice({
   },
 });
 
-export const { setUserAuth, clearUserAuth } = userAuthSlice.actions;
+export const { setUserAuth, clearUserAuth, startLogout } = userAuthSlice.actions;
 export default userAuthSlice.reducer;

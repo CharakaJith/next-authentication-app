@@ -9,6 +9,7 @@ import Toast from '@/components/toast';
 import { useDispatch } from 'react-redux';
 import { clearUserAuth } from '@/src/features/auth/userAuthSlice';
 import useLogout from '../../auth/logout/hooks/useLogout';
+import { useRouter } from 'next/navigation';
 
 const ProfileDisplay: React.FC = () => {
   const { user, error, isError } = useGet();
@@ -16,14 +17,21 @@ const ProfileDisplay: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile');
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // handle logout
   const { handleUserLogout } = useLogout({
     onSuccess: () => {
-      dispatch(clearUserAuth());
+      // go to home
       Toast.success(DISPLAY.USER.LOGGED_OUT, {
         icon: <InfoIcon size={25} className="text-green-400" />,
       });
+      router.replace('/');
+
+      // clear store
+      setTimeout(() => {
+        dispatch(clearUserAuth());
+      }, 50);
     },
   });
 
