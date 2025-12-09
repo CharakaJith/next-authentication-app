@@ -1,55 +1,60 @@
+// hooks/useGet.ts
 import type { AxiosError } from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/lib/store';
-import { useRouter } from 'next/navigation';
 import User from '../types/User';
-import { DISPLAY, ERROR } from '@/src/common/messages';
+import { ERROR } from '@/src/common/messages';
 import { GetErrorResponse } from '../types/getResponse';
 import UserDetails from '../services/getApi';
-import Toast from '@/components/toast';
-import { AlertTriangle } from 'lucide-react';
 
-const useGet = () => {
+const useGet = ({ onFail }: { onFail?: () => void } = {}) => {
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
   const { accessToken } = useSelector((state: RootState) => state.userAuth);
 
-  const router = useRouter();
-
   const fetchUser = useCallback(async () => {
     if (!accessToken) {
-      setError(ERROR.NO_TOKEN);
+      setError([ERROR.NO_TOKEN]);
       return;
     }
 
     try {
-      setError('');
+      setError([]);
 
       const res = await UserDetails(accessToken);
 
+      // on success
       if (res.data.success) {
         setUser(res.data.response.data.user);
-      } else {
-        setError(ERROR.LOAD_FAILED('user'));
+        return;
       }
+
+      // on error
+      const { message, errors } = res.data.response?.data || {};
+      if (errors && errors.length > 0) {
+        setError(errors.map((e: { message: string }) => e.message));
+      } else {
+        setError([message || ERROR.DELETE_FAILED('user')]);
+      }
+      setIsError(true);
     } catch (error: unknown) {
       const axiosErr = error as AxiosError<GetErrorResponse>;
       const message = axiosErr.response?.data?.response?.data?.message || ERROR.UNEXPECTED;
 
       if (message === ERROR.AUTH_FAILED) {
-        Toast.error(DISPLAY.USER.AUTH.LOGIN, {
-          icon: <AlertTriangle size={25} className="text-yellow-400" />,
-        });
-        router.replace('/auth/login');
+        onFail?.();
+        return;
       }
 
-      setError(message);
+      setError([message]);
+      setIsError(true);
     }
-  }, [accessToken, router]);
+  }, [accessToken, onFail]);
 
+  // fetch user
   useEffect(() => {
     const fetchData = async () => {
       await fetchUser();
@@ -58,12 +63,12 @@ const useGet = () => {
     fetchData();
   }, [fetchUser]);
 
-  // auto-clear error
+  // error message time out in 5 seconds
   useEffect(() => {
     if (isError) {
       const timer = setTimeout(() => {
         setIsError(false);
-        setError('');
+        setError([]);
       }, 5000);
       return () => clearTimeout(timer);
     }

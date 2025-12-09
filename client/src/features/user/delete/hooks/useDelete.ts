@@ -40,6 +40,7 @@ const useDelete = ({ onSuccess }: { onSuccess?: () => void }) => {
       }
       setIsError(true);
     } catch (error: unknown) {
+      // handle axios error
       if (axios.isAxiosError(error)) {
         const axiosErr = error as AxiosError<DeleteErrorResponse>;
 

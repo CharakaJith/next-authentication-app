@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
 import useGet from '../hooks/useGet';
@@ -13,12 +13,22 @@ import { useRouter } from 'next/navigation';
 import useDelete from '../../delete/hooks/useDelete';
 
 const ProfileDisplay: React.FC = () => {
-  const { user, error, isError } = useGet();
-
-  const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile');
-
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // handle auth fail
+  const handleAuthFail = useCallback(() => {
+    router.replace('/auth/login');
+
+    // clear store
+    setTimeout(() => {
+      dispatch(clearUserAuth());
+    }, 50);
+  }, [router, dispatch]);
+
+  const { user, error, isError } = useGet({ onFail: handleAuthFail });
+
+  const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile');
 
   // handle logout
   const { handleUserLogout } = useLogout({
