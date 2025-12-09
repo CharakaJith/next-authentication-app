@@ -1,16 +1,14 @@
 import axios from 'axios';
 import type { AxiosError } from 'axios';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 import UserRegister from '../services/registerApi';
 import { VALIDATE, ERROR } from '@/src/common/messages';
 import { RegisterErrorResponse } from '../types/registerResponse';
 import { RegisterRequest } from '../types/registerRequest';
-import Toast from '@/components/toast';
-import { InfoIcon } from 'lucide-react';
+import { UseRegisterProps } from '../props/useRegisterProp';
 
-const useRegister = () => {
+const useRegister = ({ onSuccess }: UseRegisterProps = {}) => {
   const [title, setTitle] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
@@ -20,8 +18,6 @@ const useRegister = () => {
 
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
-
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,11 +47,7 @@ const useRegister = () => {
 
       // on success
       if (res.data.success) {
-        Toast.success(`Please login to continue`, {
-          icon: <InfoIcon size={25} className="text-green-400" />,
-        });
-        router.push(`/auth/login?email=${encodeURIComponent(email)}`);
-
+        onSuccess?.();
         return;
       }
 

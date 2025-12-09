@@ -12,9 +12,10 @@ import { User } from '../types/User';
 const LoginForm: React.FC<LoginFormProps> = ({ defaultEmail = '' }) => {
   const router = useRouter();
 
-  // on success
+  // on login success
   const handleLoginSuccess = (user: User) => {
-    Toast.success(`Welcome back, ${user.title}. ${user.lastName}`, {
+    // go to dashboard
+    Toast.success(`Welcome, ${user.title}. ${user.lastName}`, {
       icon: <InfoIcon size={25} className="text-green-400" />,
     });
     router.push('/dashboard');

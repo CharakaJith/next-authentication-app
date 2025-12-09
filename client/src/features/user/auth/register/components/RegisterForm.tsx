@@ -1,13 +1,26 @@
 import { useState } from 'react';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, InfoIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import ErrorBox from '@/components/errorBox';
 import useRegister from '../hooks/useRegister';
 import useGet from '../../../enum/hooks/useGet';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Toast from '@/components/toast';
 
 const RegisterForm: React.FC = () => {
+  const router = useRouter();
+
+  // on register success
+  const handleRegisterSuccess = () => {
+    // go to login
+    Toast.success(`Please login to continue`, {
+      icon: <InfoIcon size={25} className="text-green-400" />,
+    });
+    router.push(`/auth/login?email=${encodeURIComponent(email)}`);
+  };
+
   const { titles, error: titlesError, isError: titlesIsError } = useGet();
   const {
     title,
@@ -25,7 +38,7 @@ const RegisterForm: React.FC = () => {
     setPassword,
     setConfrimPassword,
     handleSubmit,
-  } = useRegister();
+  } = useRegister({ onSuccess: handleRegisterSuccess });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
