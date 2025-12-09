@@ -4,6 +4,9 @@
   "description": "A Next.js authentication app with secure user signup, login, protected routes, and session handling. Demonstrates full-stack auth flow using modern Next.js features.",
   "main": "app.js",
   "scripts": {
+    "install:all": "npm install && cd client && npm install",
+    "start": "concurrently \"npm run dev\" \"npm run client\"",
+    "client": "cd client && npm run dev",
     "dev": "cross-env ENV_PATH=.env.dev nodemon app.js",
     "migrate:dev": "cross-env ENV_PATH=.env.dev npx sequelize-cli db:migrate",
     "migrate:dev:down": "cross-env ENV_PATH=.env.dev npx sequelize-cli db:migrate:undo",
@@ -34,6 +37,7 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "nodemon": "^3.1.11",
     "sequelize-cli": "^6.6.3"
