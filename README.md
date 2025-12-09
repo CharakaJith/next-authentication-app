@@ -107,6 +107,98 @@
    npm run migrate:dev:down:all
    ```
 
+## Assumptions
+
+The following assumptions were made during the development of this project:
+
+### 1. Environment Configuration
+
+- The application runs in a Node.js environment (version 20.18.1).
+- Environment variables are provided in a `.env.dev` file.
+- The app uses `NODE_ENV=development` and `PORT=8000` for development.
+
+### 2. Database
+
+- **PostgreSQL** is used as the primary database for this project, providing a robust, ACID-compliant relational database solution suitable for secure authentication systems.
+- The database contains two main tables: **User** and **BlacklistedToken**, with relationships managed through foreign key constraints.
+- **User table**
+  - Stores comprehensive user information including authentication credentials, profile data, and account metadata.
+  - Each user is uniquely identified by a UUID and includes displayId for user-friendly identification.
+  - Supports user status tracking (active/inactive) and maintains login timestamps for security monitoring.
+  - Enforces data integrity with ENUM constraints for title (Mr., Mrs., Ms., etc.) and status fields.
+- **BlacklistedToken table**
+  - Manages invalidated JWT tokens to prevent token reuse after logout or expiration.
+  - Maintains relationship with User table through foreign key reference for token ownership tracking.
+  - Stores token expiration timestamps for automated cleanup of expired tokens.
+  - Serves as a critical security component for stateless authentication systems.
+- **Sequelize** is used as the ORM to interact with **PostgreSQL**.
+  - Provides model definitions with proper data types, constraints, and validations.
+  - Implements associations between models (User ↔ BlacklistedToken) with foreign key relationships.
+  - Supports automatic timestamp management and UUID generation for primary keys.
+  - Enables migrations and seeders for consistent database schema management across environments.
+
+### 3. Authentication & Security
+
+- Passwords are hashed securely (e.g., using bcrypt) before being stored in the database.
+- User authentication is handled using **JSON Web Tokens (JWT)**, which are issued upon successful login and validated on protected routes.
+- Users cannot update other users' details and see order details that does not belong to them.
+
+### 4. User Roles & Access
+
+- Only authenticated users can access protected endpoints.
+- No admin or multi-tier access roles are implemented.
+
+### 5. Request & Response Handling
+
+- Client requests are expected to be well-formed and follow the defined API contract.
+- Errors are handled using appropriate HTTP status codes and clear response messages.
+
+### 6. Logging
+
+- The application uses **Winston** for logging, with log files rotating daily.
+- Logs include details about HTTP requests, response status, and error messages.
+- The log format includes timestamps, log levels, and structured JSON data.
+- Error stack traces are logged only in development mode.
+- Sensitive information is not logged.
+- Logs are kept for **14 days** before being automatically deleted.
+
+### 7. Error Handling
+
+- The application uses a custom error handler to manage errors and send appropriate responses.
+- Errors are logged using **Winston** with the log type depending on the error severity (`ERROR`, `FAIL`).
+- The error handler responds with an appropriate HTTP status code and error message.
+- In development mode, the full stack trace is included in the response for debugging purposes.
+- Sensitive error details (like passwords or tokens) are not included in the logs or responses.
+
+### 8. Architecture
+
+- The application follows a layered architecture with the following structure:
+
+  - **Client**: The front-end that interacts with the API.
+  - **Middleware**: Handles authentication, authorization, and request validation using Zod schemas before reaching route handlers.
+  - **Route**: Defines the HTTP routes and endpoints exposed to the client.
+  - **Controller**: Handles incoming requests and delegates business logic to services.
+  - **Service**: Contains the core business logic and operations.
+  - **Repository / Data access layer**: Provides an abstraction layer for interacting with the database.
+  - **Database**: The PostgreSQL db database is used for storing and managing data.
+
+## Identified Future Enhancements
+
+- **Client-side**
+
+  - **Social authentication**: Enable login via OAuth providers like Google, GitHub, and Facebook.
+  - **Multi-Factor authentication**: Add optional two-factor authentication via SMS or authenticator apps.
+  - **Password strength meter**: Provide real-time feedback on password strength during registration.
+  - **Remember me option**: Add persistent session feature for trusted devices.
+
+- **Server-side**
+
+  - **Refresh token implementation**: Add secure token rotation mechanism with automatic refresh for extended user sessions.
+  - **Rate limiting & security**: Implement IP-based rate limiting and advanced threat detection to prevent brute-force attacks.
+  - **Email service integration**: Add comprehensive email verification, password reset, and security notification system.
+  - **Docker containerization**: Containerize the application with Docker for consistent deployment across environments and simplified scaling.
+  - **Load balancing**: Implement horizontal scaling with load balancing for high-availability production deployment.
+
 ### Declaration
 
 - This project, including all source code and documentation, was developed by me as part of my Next.js skill demonstration to showcase modern full-stack development capabilities.
