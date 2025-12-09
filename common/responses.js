@@ -12,6 +12,10 @@ module.exports = Object.freeze({
       INVALID_CRED: 'Invalid login credentials!',
       INACTIVE: 'Account is inactive or suspended. Please contact support for more information.',
 
+      // PUT: /password
+      PASSWORD_MISMATCH: 'Current password is incorrect!',
+      PASSWORD_UPDATED: 'Password updated successfully!',
+
       // DELETE: /
       DELETED: 'User deleted successfully!',
     },

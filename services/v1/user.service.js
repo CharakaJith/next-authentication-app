@@ -140,6 +140,42 @@ const userService = {
     };
   },
 
+  updateUserPassword: async (data) => {
+    const { isOTPValidated, currentPassword, newPassword, id } = data;
+
+    // fetch user details
+    const user = await userRepo.getById(id);
+    if (!user) {
+      throw new CustomError(PAYLOAD.USER.NOT_FOUND, STATUS_CODE.BAD_REQUEST);
+    }
+
+    // password reset by OTP
+    if (isOTPValidated) {
+      user.password = await bcrypt.hash(newPassword, 10);
+    }
+    // update password
+    else {
+      // check current password
+      const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+      if (!isCurrentPasswordValid) {
+        throw new CustomError(PAYLOAD.USER.PASSWORD_MISMATCH, STATUS_CODE.FORBIDDEN);
+      }
+
+      user.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    // update user
+    await userRepo.update(user);
+
+    return {
+      success: true,
+      status: STATUS_CODE.OK,
+      data: {
+        message: PAYLOAD.USER.PASSWORD_UPDATED,
+      },
+    };
+  },
+
   deactivateUser: async (data) => {
     const { token, id } = data;
 
