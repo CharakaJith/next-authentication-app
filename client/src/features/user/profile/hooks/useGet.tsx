@@ -31,8 +31,6 @@ const useGet = () => {
       const res = await UserDetails(accessToken);
 
       if (res.data.success) {
-        console.log(res.data.response.data.user);
-
         setUser(res.data.response.data.user);
       } else {
         setError(ERROR.LOAD_FAILED('user'));

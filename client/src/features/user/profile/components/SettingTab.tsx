@@ -1,14 +1,25 @@
+import { Button } from '@/components/ui/button';
 import { SettingTabProps } from '../props/settingTabProps';
+import { useState } from 'react';
+import DeleteModal from '../../delete/components/DeleteModal';
 
-const SettingTab: React.FC<SettingTabProps> = ({ user }) => {
+const SettingTab: React.FC<SettingTabProps> = ({ user, onDelete }) => {
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   return (
-    <div className="mb-6">
-      <h2 className="text-lg font-bold text-gray-800 mb-2">Settings</h2>
-      <div>
-        <span className="font-semibold">Email:</span>
-        <p className="text-gray-700 mt-0.5 ml-4">{user.email}</p>
+    <>
+      {/* delete section */}
+      <div className="mb-6">
+        <h2 className="text-lg font-bold text-red-600 mb-2">Delete Account</h2>
+
+        {/* delete button */}
+        <Button variant="destructive" className="bg-red-500 text-white hover:bg-red-700 cursor-pointer" onClick={() => setIsDeleteOpen(true)}>
+          Delete Account
+        </Button>
       </div>
-    </div>
+
+      {isDeleteOpen && <DeleteModal userName={`${user.firstName} ${user.lastName}`} onClose={() => setIsDeleteOpen(false)} onConfirm={onDelete} />}
+    </>
   );
 };
 

@@ -4,12 +4,13 @@ import SettingTab from './SettingTab';
 import useGet from '../hooks/useGet';
 import { Button } from '@/components/ui/button';
 import { DISPLAY } from '@/src/common/messages';
-import { InfoIcon } from 'lucide-react';
+import { InfoIcon, TrashIcon } from 'lucide-react';
 import Toast from '@/components/toast';
 import { useDispatch } from 'react-redux';
 import { clearUserAuth } from '@/src/features/auth/userAuthSlice';
 import useLogout from '../../auth/logout/hooks/useLogout';
 import { useRouter } from 'next/navigation';
+import useDelete from '../../delete/hooks/useDelete';
 
 const ProfileDisplay: React.FC = () => {
   const { user, error, isError } = useGet();
@@ -25,6 +26,22 @@ const ProfileDisplay: React.FC = () => {
       // go to home
       Toast.success(DISPLAY.USER.LOGGED_OUT, {
         icon: <InfoIcon size={25} className="text-green-400" />,
+      });
+      router.replace('/');
+
+      // clear store
+      setTimeout(() => {
+        dispatch(clearUserAuth());
+      }, 50);
+    },
+  });
+
+  // handle delete
+  const { handleDelete } = useDelete({
+    onSuccess: () => {
+      // go to home
+      Toast.info(DISPLAY.USER.DELETED, {
+        icon: <TrashIcon size={25} className="text-red-400" />,
       });
       router.replace('/');
 
@@ -84,7 +101,7 @@ const ProfileDisplay: React.FC = () => {
       </div>
 
       {/* tab content */}
-      {activeTab === 'profile' ? <ProfileTab user={user} /> : <SettingTab user={user} />}
+      {activeTab === 'profile' ? <ProfileTab user={user} /> : <SettingTab user={user} onDelete={handleDelete} />}
 
       {/* logout */}
       {activeTab === 'profile' ? (
