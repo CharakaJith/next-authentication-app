@@ -73,6 +73,26 @@ const userController = {
     }
   },
 
+  updateDetails: async (req, res, next) => {
+    try {
+      const updateData = ({ title, firstName, lastName } = req.body);
+      updateData.id = req.user.id;
+
+      const response = await userService.updateUserDetails(updateData);
+      const { success, status, data } = response;
+
+      res.status(status).json({
+        success: success,
+        response: {
+          status: status,
+          data: data,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   updatePassword: async (req, res, next) => {
     try {
       const updateData = ({ isOTPValidated, currentPassword, newPassword } = req.body);
