@@ -1,14 +1,11 @@
+import { User } from './User';
+
 export interface LoginSuccessResponse {
   success: true;
   response: {
     status: number;
     data: {
-      user: {
-        displayId: string;
-        title: string;
-        firstName: string;
-        lastName: string;
-      };
+      user: User;
     };
   };
 }

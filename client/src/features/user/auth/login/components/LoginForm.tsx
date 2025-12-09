@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, InfoIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import ErrorBox from '@/components/errorBox';
 import useLogin from '../hooks/useLogin';
 import LoginFormProps from '../props/loginFormProp';
+import Toast from '@/components/toast';
+import { useRouter } from 'next/navigation';
+import { User } from '../types/User';
 
 const LoginForm: React.FC<LoginFormProps> = ({ defaultEmail = '' }) => {
-  const { email, password, error, isError, setEmail, setPassword, handleSubmit } = useLogin();
+  const router = useRouter();
+
+  // on success
+  const handleLoginSuccess = (user: User) => {
+    Toast.success(`Welcome back, ${user.title}. ${user.lastName}`, {
+      icon: <InfoIcon size={25} className="text-green-400" />,
+    });
+    router.push('/dashboard');
+  };
+
+  const { email, password, error, isError, setEmail, setPassword, handleSubmit } = useLogin({ onSuccess: handleLoginSuccess });
 
   const [showPassword, setShowPassword] = useState(false);
 

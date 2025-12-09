@@ -2,23 +2,20 @@ import axios from 'axios';
 import type { AxiosError } from 'axios';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { InfoIcon } from 'lucide-react';
 
 import UserLogin from '../services/loginApi';
 import { VALIDATE, ERROR } from '@/src/common/messages';
 import { LoginErrorResponse } from '../types/loginResponse';
 import { setUserAuth } from '@/src/features/auth/userAuthSlice';
-import Toast from '@/components/toast';
+import { UseLoginProps } from '../props/useLoginProp';
 
-const useLogin = () => {
+const useLogin = ({ onSuccess }: UseLoginProps = {}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const [error, setError] = useState<string[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,15 +37,10 @@ const useLogin = () => {
         const userData = res.data.response.data.user;
 
         if (accessToken) {
-          // update redux store
+          // update store
           dispatch(setUserAuth({ token: accessToken, info: userData }));
+          onSuccess?.(userData);
         }
-
-        Toast.success(`Welcome back, ${userData.title}. ${userData.lastName}`, {
-          icon: <InfoIcon size={25} className="text-green-400" />,
-        });
-        router.push('/dashboard');
-
         return;
       }
 
