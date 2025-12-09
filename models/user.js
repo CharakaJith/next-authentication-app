@@ -7,7 +7,12 @@ const userStatus = require('../enum/user/status.enum');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      // single user can have many blacklisted tokens
+      User.hasMany(models.BlacklistedToken, {
+        foreignKey: 'userId',
+        as: 'blacklistedTokens',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
