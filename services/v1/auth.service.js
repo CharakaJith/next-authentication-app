@@ -53,10 +53,8 @@ const authService = {
     };
   },
 
-  validateToken: async (token) => {
+  validateToken: async (parsedToken) => {
     try {
-      const parsedToken = JSON.parse(token);
-
       // check cache
       if (blacklistCache.hasToken(parsedToken)) {
         return false;

@@ -205,6 +205,10 @@ The following assumptions were made during the development of this project:
 - Product descriptions and documentation were reviewed and refined using ChatGPT to ensure proper grammar, clarity, and professional English.
 - ChatGPT was used as a guidance for UI component styling (CSS) and layout decisions. All backend functionality, including API implementation, database interactions, and business logic, as well as the thought process was independently concluded by the author.
 
+## Documentations
+
+- [Postman API documentation](https://documenter.getpostman.com/view/28014836/2sB3dSP8FG)
+
 ## Contact
 
 Email: [gunasinghe.info@gmail.com](mailto:gunasinghe.info@gmail.com) | LinkedIn: [Charaka Jith Gunasinghe](https://www.linkedin.com/in/charaka-gunasinghe/)
